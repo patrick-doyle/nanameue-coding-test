@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login_title">Login</string>
+    <string name="login">Login</string>
+
+    <string name="permission_denied">Permission Denied</string>
+    <string name="camera_required">Camera Required</string>
+    <string name="camera_required_desc">This Device Requires a camera to work</string>
+    <string name="requires_camera_permission">This App requires the camera permission to operate</string>
+    <string name="open_permission_settings">Open Permission Settings</string>
+
+    <string name="login_error_cred_wrong">Email or password is invalid</string>
+    <string name="login_error_user_exists">User exists for email</string>
+    <string name="login_error_email_invalid">Email Invalid</string>
+    <string name="login_error_generic">Login Error</string>
+    <string name="login_error_weak_password">Weak Password</string>
+</resources>

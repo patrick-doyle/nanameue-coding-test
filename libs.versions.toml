@@ -1,0 +1,86 @@
+[versions]
+kotlin = "1.9.22"
+ktx = "1.12.0"
+ksp = "1.9.21-1.0.15"
+androidGradlePlugin = "8.3.0"
+googleServices = "4.4.1"
+
+appcompat = "1.6.1"
+constraintLayout = "2.1.4"
+coroutinesAndroid = "1.7.3"
+lifecycleRuntimeKtx = "2.7.0"
+
+firebase = "32.7.3"
+compose = "2024.02.01"
+composeActivity = "1.8.2"
+
+dagger = "2.48"
+
+timber = "5.0.1"
+
+moshi = "1.15.0"
+retrofit = "2.9.0"
+okhttp = "4.10.0"
+
+junit = "4.13.2"
+androidJunit = "1.1.5"
+espressoCore = "3.5.1"
+
+[libraries]
+#Koltin & Coroutines
+kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version = "koltin" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
+
+#AndroidX App compat
+androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+androidx-lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+#AndroidX App Compose
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose" }
+androidx-compose = { module = "androidx.compose.material3:material3" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity"}
+androidx-compose-uitooling = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-uitoolingdebug = { module = "androidx.compose.ui:ui-tooling" }
+
+#firebase
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+
+#dagger
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-ksp = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+
+#Logging
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+#Http, Json and Data managaement
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+
+#testing
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidJunit" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+
+[bundles]
+# Define bundles/groups of libraries
+coroutines = ["kotlin", "kotlinx-coroutines-android"]
+firebase = ["firebase-auth", "firebase-firestore"]
+androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx"]
+androidx-compose = ["androidx-compose", "androidx-compose-ui", "androidx-compose-uitooling", "androidx-compose-activity"]
+
+[plugins]
+# Buildscript plugins
+kotlin-gradle = { id = "org.jetbrains.kotlin.gradle-plugin", version.ref = "kotlin" }
+
+# Android Module plugins
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

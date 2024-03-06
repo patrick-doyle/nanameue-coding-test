@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "491051778028",
+    "project_id": "nanameue-coding-test",
+    "storage_bucket": "nanameue-coding-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491051778028:android:9a39ee30a553eb6980cac9",
+        "android_client_info": {
+          "package_name": "com.pdoyle.nanameue"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbfxlSzOcM_sFfuFahcv-l48LzEhrDKQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
