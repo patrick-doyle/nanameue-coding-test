@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">App</string>
+    <string name="app_name">Nanameue Coding test App</string>
+    <string name="timeline">Timeline</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="login_title">Login</string>
     <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="image_content">Image Content</string>
 
     <string name="permission_denied">Permission Denied</string>
     <string name="camera_required">Camera Required</string>
@@ -16,4 +19,8 @@
     <string name="login_error_email_invalid">Email Invalid</string>
     <string name="login_error_generic">Login Error</string>
     <string name="login_error_weak_password">Weak Password</string>
+    <string name="login_error_bad_email">Email is invalid</string>
+    <string name="login_error_bad_password">Password cannot be blank</string>
+    <string name="logout">Logout</string>
+    <string name="make_post">New Post</string>
 </resources>

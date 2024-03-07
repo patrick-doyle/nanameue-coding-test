@@ -4,9 +4,10 @@ import com.pdoyle.nanameue.app.AppScope
 import javax.inject.Inject
 
 @AppScope
-class PostsRepository  @Inject constructor() {
+class PostsRepository  @Inject constructor(
+    private val postsApi: PostsApi) {
 
-    fun getPosts(): List<Post> {
-        return emptyList()
+    suspend fun getPosts(): List<Post> {
+        return postsApi.getPosts()
     }
 }

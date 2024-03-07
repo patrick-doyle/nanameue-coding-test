@@ -1,7 +1,8 @@
 package com.pdoyle.nanameue.features.timeline
 
-import androidx.appcompat.app.AppCompatActivity
-import com.pdoyle.nanameue.features.timeline.view.TimelineView
+import android.app.Activity
+import com.pdoyle.nanameue.app.posts.PostsRepository
+import com.pdoyle.nanameue.util.AppDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -14,26 +15,24 @@ annotation class TimelineScope
 @Subcomponent(modules = [TimelineModule::class])
 interface TimelineComponent {
 
-    fun inject(timelineActivity: TimelineActivity)
+    fun inject(postsActivity: PostsActivity)
 }
 
 @Module
-class TimelineModule(private val activity: AppCompatActivity) {
+class TimelineModule(private val activity: Activity) {
 
     @Provides
     @TimelineScope
-    fun timelineUseCase() =
-        TimelineUseCase(activity)
-
-
-    @Provides
-    @TimelineScope
-    fun viewModel(timelineUseCase: TimelineUseCase) = TimelineViewModel(timelineUseCase)
+    fun timelineUseCase(postsRepository: PostsRepository) =
+        PostsUseCase(postsRepository)
 
 
     @Provides
     @TimelineScope
-    fun view() = TimelineView(activity)
-
+    fun viewModel(
+        postsUseCase: PostsUseCase,
+        appDispatchers: AppDispatchers
+    ) =
+        PostsTimelineViewModel(postsUseCase, appDispatchers)
 
 }

@@ -1,7 +1,9 @@
 package com.pdoyle.nanameue.app
 
 import android.content.Context
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 import com.pdoyle.nanameue.features.timeline.TimelineComponent
 import com.pdoyle.nanameue.features.timeline.TimelineModule
 import com.pdoyle.nanameue.features.login.LoginComponent
@@ -34,6 +36,10 @@ class AppModule(private val context: Context) {
     @Provides
     @AppScope
     fun fireBaseAuth() = FirebaseAuth.getInstance()
+
+    @Provides
+    @AppScope
+    fun fireStore() = Firebase.firestore
 
     @Provides
     @AppScope

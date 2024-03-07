@@ -31,14 +31,17 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.unit.dp
 import com.pdoyle.nanameue.app.login.LoginError
+import com.pdoyle.nanameue.features.login.LoginFormSubmit
 import kotlinx.coroutines.launch
 
 @LoginScope
 class LoginView @Inject constructor() {
 
     //flows for user interaction
-    private val onSubmitFlow = MutableSharedFlow<LoginFormSubmit>(0)
+    private val onLoginFlow = MutableSharedFlow<LoginFormSubmit>(0)
+    private val onSignupFlow = MutableSharedFlow<LoginFormSubmit>(0)
 
     //updatable state
     private val _snackBarTextId = mutableIntStateOf(0)
@@ -54,13 +57,15 @@ class LoginView @Inject constructor() {
         val snackbarHostState = remember { SnackbarHostState() }
 
         val snackBarTextId: Int by _snackBarTextId
-        if (snackBarTextId != 0) {
+        if (_snackBarTextId.intValue != 0) {
             val snackbarMessage: String = stringResource(id = snackBarTextId)
             LaunchedEffect(snackbarMessage) {
                 snackbarHostState.showSnackbar(
                     message = snackbarMessage,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
                 )
+                _snackBarTextId.intValue = 0
             }
         }
 
@@ -74,23 +79,26 @@ class LoginView @Inject constructor() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .fillMaxSize(0.9f)
+                        .fillMaxSize()
                         .padding(innerPadding)
                 ) {
                     Text(
                         text = stringResource(R.string.login_title),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
                     )
                     EmailField(
                         label = stringResource(R.string.email),
                         value = formData.email,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
                         onChange = { formData = formData.copy(email = it) },
                     )
                     PasswordField(
                         label = stringResource(R.string.password),
                         value = formData.password,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
                         onChange = { formData = formData.copy(password = it) },
                         submit = {
                             scope.launch {
@@ -104,10 +112,24 @@ class LoginView @Inject constructor() {
                                 submitForm(formData)
                             }
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
                     ) {
                         Text(
                             text = stringResource(R.string.login)
+                        )
+                    }
+                    TextButton(
+                        onClick = {
+                            scope.launch {
+                                onSignupFlow.emit(formData)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.sign_up)
                         )
                     }
                 }
@@ -115,12 +137,16 @@ class LoginView @Inject constructor() {
         }
     }
 
-    fun listenForFormSubmission(): Flow<LoginFormSubmit> {
-        return onSubmitFlow.asSharedFlow()
+    fun listenForLoginSubmission(): Flow<LoginFormSubmit> {
+        return onLoginFlow.asSharedFlow()
+    }
+
+    fun listenForSignUpSubmission(): Flow<LoginFormSubmit> {
+        return onSignupFlow.asSharedFlow()
     }
 
     private suspend fun submitForm(formData: LoginFormSubmit) {
-        val emitted = onSubmitFlow.emit(formData)
+       onLoginFlow.emit(formData)
     }
 
     fun showLoginError(error: LoginError) {
@@ -128,6 +154,8 @@ class LoginView @Inject constructor() {
             is LoginError.UserExists -> R.string.login_error_cred_wrong
             is LoginError.InvalidCredentials -> R.string.login_error_cred_wrong
             is LoginError.WeakPassword -> R.string.login_error_weak_password
+            is LoginError.MalformedEmail -> R.string.login_error_bad_email
+            is LoginError.MalformedPassword -> R.string.login_error_bad_password
             is LoginError.Generic -> R.string.login_error_generic
         }
     }

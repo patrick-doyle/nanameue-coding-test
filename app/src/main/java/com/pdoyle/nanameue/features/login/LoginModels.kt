@@ -1,4 +1,4 @@
-package com.pdoyle.nanameue.features.login.view
+package com.pdoyle.nanameue.features.login
 
 data class LoginFormSubmit(
     val email: String,

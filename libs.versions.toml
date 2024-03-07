@@ -7,12 +7,14 @@ googleServices = "4.4.1"
 
 appcompat = "1.6.1"
 constraintLayout = "2.1.4"
-coroutinesAndroid = "1.7.3"
+coroutinesAndroid = "1.8.0"
 lifecycleRuntimeKtx = "2.7.0"
 
 firebase = "32.7.3"
-compose = "2024.02.01"
+compose = "2024.02.02"
 composeActivity = "1.8.2"
+composeNav = "2.7.7"
+composeConstraint = "1.0.1"
 
 dagger = "2.48"
 
@@ -20,7 +22,7 @@ timber = "5.0.1"
 
 moshi = "1.15.0"
 retrofit = "2.9.0"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 
 junit = "4.13.2"
 androidJunit = "1.1.5"
@@ -44,6 +46,9 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity"}
 androidx-compose-uitooling = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-uitoolingdebug = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-compose" }
+androidx-compose-navigation = { module = "androidx.navigation:navigation-compose",  version.ref = "composeNav"}
+androidx-compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose",  version.ref = "composeConstraint"}
 
 #firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
@@ -73,7 +78,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 coroutines = ["kotlin", "kotlinx-coroutines-android"]
 firebase = ["firebase-auth", "firebase-firestore"]
 androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx"]
-androidx-compose = ["androidx-compose", "androidx-compose-ui", "androidx-compose-uitooling", "androidx-compose-activity"]
+androidx-compose = ["androidx-compose", "androidx-compose-ui", "androidx-compose-uitooling", "androidx-compose-activity", "androidx-compose-lifecycle", "androidx-compose-navigation", "androidx-compose-constraint"]
 
 [plugins]
 # Buildscript plugins

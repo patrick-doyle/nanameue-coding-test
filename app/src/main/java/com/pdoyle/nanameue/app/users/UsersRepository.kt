@@ -4,10 +4,14 @@ import com.pdoyle.nanameue.app.AppScope
 import javax.inject.Inject
 
 @AppScope
-class UsersRepository @Inject constructor() {
+class UsersRepository @Inject constructor(private val usersApi: UsersApi) {
 
-    fun getUsers(): List<User> {
-        return emptyList()
+    fun getUserForId(id: String): User? {
+        return null
+    }
+
+    suspend fun createUserInStore(user: User) {
+        return usersApi.createUserInStore(user)
     }
 
 }

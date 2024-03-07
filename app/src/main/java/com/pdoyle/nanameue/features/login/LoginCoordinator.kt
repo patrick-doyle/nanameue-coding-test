@@ -1,12 +1,11 @@
 package com.pdoyle.nanameue.features.login
 
-import com.pdoyle.nanameue.app.login.LoginError
+import com.pdoyle.nanameue.app.login.AuthResult
 import com.pdoyle.nanameue.features.login.view.LoginView
 import com.pdoyle.nanameue.util.AppDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginCoordinator(
@@ -18,25 +17,55 @@ class LoginCoordinator(
 ) {
 
     fun onCreate() {
-        scope.launch {
-            listenForFormSubmission()
+        if(loginUseCase.isLoggedIn()) {
+            activityUseCase.openTimelineActivity()
+            activityUseCase.finish()
+            return
         }
+        listenForLoginSubmission()
+        listenForSignupSubmission()
     }
 
-    private suspend fun listenForFormSubmission() {
-        view.listenForFormSubmission()
+    private fun listenForLoginSubmission() {
+        view.listenForLoginSubmission()
             .onEach {
-                withContext(dispatchers.io()) {
-                    val authResult = loginUseCase.login(submit = it)
-                    withContext(dispatchers.main()) {
-                        if (authResult.user != null) {
-                            activityUseCase.openTimelineActivity()
-                        } else if (authResult.error != null) {
-                            view.showLoginError(authResult.error)
-                        } else {
-                            view.showLoginError(LoginError.Generic())
-                        }
+                val submissionIsValid = loginUseCase.validate(it)
+                if (submissionIsValid is AuthResult.Error) {
+                    view.showLoginError(submissionIsValid.error)
+                    return@onEach
+                }
+
+                val authResult = withContext(dispatchers.io()) {
+                    loginUseCase.login(submit = it)
+                }
+
+                when (authResult) {
+                    is AuthResult.Success -> {
+                        activityUseCase.openTimelineActivity()
+                        activityUseCase.finish()
                     }
+                    is AuthResult.Error -> view.showLoginError(authResult.error)
+                }
+            }
+            .launchIn(scope)
+    }
+
+    private fun listenForSignupSubmission() {
+        view.listenForSignUpSubmission()
+            .onEach {
+                val submissionIsValid = loginUseCase.validate(it)
+                if (submissionIsValid is AuthResult.Error) {
+                    view.showLoginError(submissionIsValid.error)
+                    return@onEach
+                }
+
+                val authResult = withContext(dispatchers.io()) {
+                    loginUseCase.signup(submit = it)
+                }
+
+                when (authResult) {
+                    is AuthResult.Success -> activityUseCase.openTimelineActivity()
+                    is AuthResult.Error -> view.showLoginError(authResult.error)
                 }
             }
             .launchIn(scope)

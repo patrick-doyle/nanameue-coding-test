@@ -3,9 +3,8 @@ package com.pdoyle.nanameue.features.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.ui.tooling.preview.Preview
-import com.pdoyle.nanameue.App
 import com.pdoyle.nanameue.features.login.view.LoginView
+import com.pdoyle.nanameue.util.appComponent
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -19,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.get(this).getAppComponent()
+        appComponent()
             .loginComponent(LoginModule(this))
             .inject(this)
 

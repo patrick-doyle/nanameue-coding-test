@@ -1,5 +1,9 @@
 package com.pdoyle.nanameue.app.users
 
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
+import com.pdoyle.nanameue.util.emptyString
+
 data class User(
     val id: String,
     val username: String,
@@ -15,4 +19,23 @@ data class User(
         }
         return id
     }
+}
+
+fun FirebaseUser.toAppUser(): User {
+    return User(
+        id = uid,
+        username = displayName ?: emptyString(),
+        email = email ?: emptyString()
+    )
+}
+
+fun userFromFireBaseDoc(doc: DocumentSnapshot?): User? {
+    if(doc == null) {
+        return null
+    }
+    return User(
+        id = "id",
+        username = "username",
+        email = "email",
+    )
 }
