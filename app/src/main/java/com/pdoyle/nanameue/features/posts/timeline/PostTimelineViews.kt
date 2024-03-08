@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Visibility
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.app.posts.Post
 import java.time.ZoneId
@@ -40,21 +43,18 @@ fun PostView(post: Post) {
 
             val (image, title, dateText, author) = createRefs()
 
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = stringResource(id = R.string.image_content),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .height(100.dp)
-                    .width(100.dp)
-                    .constrainAs(image) {
-                        visibility = if (post.imageUrl != null) {
-                            Visibility.Visible
-                        } else {
-                            Visibility.Visible
-                        }
-                    }
-            )
+            val imageModifier = Modifier
+                .height(100.dp)
+                .width(100.dp)
+                .constrainAs(image) {
+                    visibility = Visibility.Visible
+                }
+            if(!post.imageUrl.isNullOrBlank()) {
+                RemoteImageView(imageUrl = post.imageUrl, modifier = imageModifier)
+            }  else {
+                PlaceholderImageView(modifier = imageModifier)
+            }
+
             val postedAt = post.postedAt.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
             val dateFormatted = DateUtils.getRelativeTimeSpanString(
                 postedAt,
@@ -90,4 +90,32 @@ fun PostView(post: Post) {
             )
         }
     }
+}
+
+@Composable
+fun RemoteImageView(imageUrl: String, modifier: Modifier) {
+    val painter = rememberAsyncImagePainter(
+        ImageRequest
+            .Builder(LocalContext.current)
+            .data(data = imageUrl)
+            .placeholder(R.drawable.baseline_image_24)
+            .error(R.drawable.baseline_image_missing)
+            .build()
+    )
+    Image(
+        painter = painter,
+        contentDescription = stringResource(id = R.string.image_content),
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PlaceholderImageView(modifier: Modifier) {
+    Image(
+        painter = painterResource(R.drawable.baseline_image_24),
+        contentDescription = stringResource(id = R.string.image_content),
+        contentScale = ContentScale.Fit,
+        modifier = modifier
+    )
 }

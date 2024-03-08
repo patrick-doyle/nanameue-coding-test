@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.pdoyle.nanameue.app.AppModule_ContextFactory.context
 import com.pdoyle.nanameue.app.AppScope
 import com.pdoyle.nanameue.app.users.userFromFireBaseDoc
 import kotlinx.coroutines.channels.awaitClose
@@ -58,7 +57,6 @@ class PostsApi @Inject constructor(
             val filename = cursor.getString(nameIndex)
             cursor.close()
 
-
             val imageStream = contentResolver.openInputStream(uri)!!
             val imagesRef: StorageReference = storage.reference.child(filename)
 
@@ -102,6 +100,7 @@ class PostsApi @Inject constructor(
                                 posts.add(post)
                             }
                     }
+                    posts.sortByDescending { it.postedAt }
                     trySendBlocking(posts)
                 }
             awaitClose { listenerRegistration.remove() }

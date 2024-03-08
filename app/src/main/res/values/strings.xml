@@ -10,6 +10,9 @@
     <string name="create_post">Create Post</string>
     <string name="posts">Posts</string>
     <string name="select_image">Select Image</string>
+    <string name="post_error">Failed to create post</string>
+    <string name="post_error_form">Select image or enter text</string>
+    <string name="post_error_connection">No Connection</string>
 
     <string name="login_error_cred_wrong">Email or password is invalid</string>
     <string name="login_error_user_exists">User exists for email</string>

@@ -3,6 +3,7 @@ package com.pdoyle.nanameue.features.posts.create
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.app.posts.PostForm
 import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.util.AppDispatchers
@@ -25,11 +26,26 @@ class PostCreateViewModel(
     }
 
     fun submitForm(postSubmit: PostForm) {
+        if(!postsUseCase.isConnected()) {
+            _uiState.value = _uiState.value.copy(error = true,
+                errorMessage = R.string.post_error_connection)
+            return
+        }
+        if(postSubmit.imageUrl.isNullOrBlank() && postSubmit.text.isNullOrBlank()) {
+            _uiState.value = _uiState.value.copy(error = true,
+                errorMessage = R.string.post_error_form)
+            return
+        }
+
         viewModelScope.launch {
-            withContext(appDispatchers.io()) {
-                _uiState.value = _uiState.value.copy(loading = true)
-                postsUseCase.createPost(postSubmit)
-                _uiState.value = _uiState.value.copy(loading = false)
+            _uiState.value = _uiState.value.copy(loading = true, error = false)
+            try {
+                withContext(appDispatchers.io()) {
+                    postsUseCase.createPost(postSubmit)
+                }
+                _uiState.value = _uiState.value.copy(loading = false, error = false)
+            } catch (error: Exception) {
+                _uiState.value = _uiState.value.copy(loading = false, error = true)
             }
         }
     }

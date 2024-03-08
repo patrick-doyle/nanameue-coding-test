@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.pdoyle.nanameue.features.common.LoadingDialog
@@ -17,20 +16,20 @@ import com.pdoyle.nanameue.features.common.LoadingDialog
 fun PostCreateScreen(postCreateViewModel: PostCreateViewModel) {
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val snackBarTextId = remember { mutableIntStateOf(0) }
 
     val postCreateViewState by postCreateViewModel.uiState.collectAsState()
 
-    if (snackBarTextId.intValue != 0) {
-        val snackbarMessage: String = stringResource(id = snackBarTextId.intValue)
+    if (postCreateViewState.error) {
+        val snackbarMessage: String = stringResource(id = postCreateViewState.errorMessage)
         LaunchedEffect(snackbarMessage) {
             snackbarHostState.showSnackbar(
                 message = snackbarMessage,
                 duration = SnackbarDuration.Short,
                 withDismissAction = true
             )
-            snackBarTextId.intValue = 0
         }
+    } else {
+        snackbarHostState.currentSnackbarData?.dismiss()
     }
     Scaffold(
         snackbarHost = {

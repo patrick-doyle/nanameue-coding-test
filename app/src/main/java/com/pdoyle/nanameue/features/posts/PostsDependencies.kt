@@ -1,5 +1,6 @@
 package com.pdoyle.nanameue.features.posts
 
+import android.net.ConnectivityManager
 import com.pdoyle.nanameue.app.login.LoginRepository
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.features.posts.create.PostCreateViewModelFactory
@@ -24,8 +25,10 @@ class PostsModule {
 
     @Provides
     @PostScope
-    fun postsUseCase(postsRepository: PostsRepository) =
-        PostsUseCase(postsRepository)
+    fun postsUseCase(
+        postsRepository: PostsRepository,
+        connectivityManager: ConnectivityManager
+    ) = PostsUseCase(postsRepository, connectivityManager)
 
     @Provides
     @PostScope

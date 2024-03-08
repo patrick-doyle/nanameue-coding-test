@@ -1,6 +1,8 @@
 package com.pdoyle.nanameue.app
 
+import android.content.ContentResolver
 import android.content.Context
+import android.net.ConnectivityManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
@@ -25,7 +27,7 @@ interface AppComponent {
 
     fun loginComponent(module: LoginModule): LoginComponent
 
-    fun  postsComponent(module: PostsModule): PostComponent
+    fun postsComponent(module: PostsModule): PostComponent
 }
 
 @Module
@@ -41,12 +43,19 @@ class AppModule(private val context: Context) {
     @Provides
     @AppScope
     fun fireStore() = Firebase.firestore
+
     @Provides
     @AppScope
     fun storage() = Firebase.storage
+
     @Provides
     @AppScope
-    fun contentResolver() = context.contentResolver
+    fun contentResolver(): ContentResolver = context.contentResolver
+
+    @Provides
+    @AppScope
+    fun connectivityManager(): ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @AppScope
