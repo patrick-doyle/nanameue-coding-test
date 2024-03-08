@@ -1,6 +1,7 @@
 package com.pdoyle.nanameue.features.posts
 
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.pdoyle.nanameue.app.posts.Post
 import com.pdoyle.nanameue.app.posts.PostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
@@ -25,12 +26,14 @@ class PostsUseCase(
     }
 
     fun isConnected(): Boolean {
-        return try {
-            val networkInfo = connectivityManager.activeNetworkInfo
-            networkInfo != null && networkInfo.isConnected
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val actNw =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
         }
     }
 

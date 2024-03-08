@@ -59,10 +59,6 @@ dependencies {
 
     implementation(libs.timber)
 
-    implementation(libs.moshi)
-    ksp(libs.moshi.codegen)
-    implementation(libs.retrofit)
-    implementation(libs.okhttp)
     implementation(libs.coil)
 
     testImplementation(libs.junit)

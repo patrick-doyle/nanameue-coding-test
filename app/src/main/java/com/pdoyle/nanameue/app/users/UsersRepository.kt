@@ -6,10 +6,6 @@ import javax.inject.Inject
 @AppScope
 class UsersRepository @Inject constructor(private val usersApi: UsersApi) {
 
-    fun getUserForId(id: String): User? {
-        return null
-    }
-
     suspend fun createUserInStore(user: User) {
         return usersApi.createUserInStore(user)
     }
