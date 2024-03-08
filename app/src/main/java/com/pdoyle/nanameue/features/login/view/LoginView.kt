@@ -18,23 +18,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.pdoyle.nanameue.R
+import com.pdoyle.nanameue.app.login.LoginError
+import com.pdoyle.nanameue.features.login.LoginFormSubmit
 import com.pdoyle.nanameue.features.login.LoginScope
 import com.pdoyle.nanameue.util.emptyString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import javax.inject.Inject
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.unit.dp
-import com.pdoyle.nanameue.app.login.LoginError
-import com.pdoyle.nanameue.features.login.LoginFormSubmit
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @LoginScope
 class LoginView @Inject constructor() {

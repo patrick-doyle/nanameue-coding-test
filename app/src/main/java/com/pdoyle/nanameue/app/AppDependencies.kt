@@ -4,10 +4,11 @@ import android.content.Context
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
-import com.pdoyle.nanameue.features.timeline.TimelineComponent
-import com.pdoyle.nanameue.features.timeline.TimelineModule
+import com.google.firebase.storage.storage
 import com.pdoyle.nanameue.features.login.LoginComponent
 import com.pdoyle.nanameue.features.login.LoginModule
+import com.pdoyle.nanameue.features.posts.PostComponent
+import com.pdoyle.nanameue.features.posts.PostsModule
 import com.pdoyle.nanameue.util.AppDispatchers
 import com.pdoyle.nanameue.util.DefaultAppDispatchers
 import dagger.Component
@@ -24,7 +25,7 @@ interface AppComponent {
 
     fun loginComponent(module: LoginModule): LoginComponent
 
-    fun  timelineComponent(module: TimelineModule): TimelineComponent
+    fun  postsComponent(module: PostsModule): PostComponent
 }
 
 @Module
@@ -40,6 +41,12 @@ class AppModule(private val context: Context) {
     @Provides
     @AppScope
     fun fireStore() = Firebase.firestore
+    @Provides
+    @AppScope
+    fun storage() = Firebase.storage
+    @Provides
+    @AppScope
+    fun contentResolver() = context.contentResolver
 
     @Provides
     @AppScope

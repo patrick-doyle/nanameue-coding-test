@@ -29,13 +29,10 @@ fun FirebaseUser.toAppUser(): User {
     )
 }
 
-fun userFromFireBaseDoc(doc: DocumentSnapshot?): User? {
-    if(doc == null) {
-        return null
-    }
+fun userFromFireBaseDoc(doc: DocumentSnapshot): User {
     return User(
-        id = "id",
-        username = "username",
-        email = "email",
+        id = doc.id,
+        username = doc.getString("username")!!,
+        email = doc.getString("email")!!
     )
 }

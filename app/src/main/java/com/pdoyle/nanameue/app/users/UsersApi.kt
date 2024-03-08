@@ -13,11 +13,7 @@ class UsersApi @Inject constructor(private val firestore: FirebaseFirestore) {
     suspend fun getUsers(): List<User> {
         return firestore.collection(USER_COLLECTION_NAME)
             .get().await().map {
-                User(
-                    id = it.id,
-                    username = it.getString("username")!!,
-                    email = it.getString("email")!!
-                )
+                userFromFireBaseDoc(it)
             }
     }
 
@@ -25,11 +21,7 @@ class UsersApi @Inject constructor(private val firestore: FirebaseFirestore) {
         val doc = firestore.collection(USER_COLLECTION_NAME)
             .document(userId)
             .get().await()
-        return User(
-            id = doc.id,
-            username = doc.getString("username")!!,
-            email = doc.getString("email")!!
-        )
+        return userFromFireBaseDoc(doc)
 
     }
 

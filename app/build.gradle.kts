@@ -63,6 +63,7 @@ dependencies {
     ksp(libs.moshi.codegen)
     implementation(libs.retrofit)
     implementation(libs.okhttp)
+    implementation(libs.coil)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

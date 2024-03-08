@@ -9,6 +9,7 @@ appcompat = "1.6.1"
 constraintLayout = "2.1.4"
 coroutinesAndroid = "1.8.0"
 lifecycleRuntimeKtx = "2.7.0"
+activityKtx = "1.8.2"
 
 firebase = "32.7.3"
 compose = "2024.02.02"
@@ -23,6 +24,7 @@ timber = "5.0.1"
 moshi = "1.15.0"
 retrofit = "2.9.0"
 okhttp = "4.11.0"
+coil = "2.2.2"
 
 junit = "4.13.2"
 androidJunit = "1.1.5"
@@ -36,6 +38,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 #AndroidX App compat
 androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx"}
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
 androidx-lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 
@@ -54,6 +57,7 @@ androidx-compose-constraint = { module = "androidx.constraintlayout:constraintla
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
 
 #dagger
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
@@ -67,7 +71,7 @@ moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coil"}
 #testing
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidJunit" }
@@ -76,8 +80,8 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 [bundles]
 # Define bundles/groups of libraries
 coroutines = ["kotlin", "kotlinx-coroutines-android"]
-firebase = ["firebase-auth", "firebase-firestore"]
-androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx"]
+firebase = ["firebase-auth", "firebase-firestore", "firebase-storage"]
+androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx", "androidx-activity-ktx"]
 androidx-compose = ["androidx-compose", "androidx-compose-ui", "androidx-compose-uitooling", "androidx-compose-activity", "androidx-compose-lifecycle", "androidx-compose-navigation", "androidx-compose-constraint"]
 
 [plugins]

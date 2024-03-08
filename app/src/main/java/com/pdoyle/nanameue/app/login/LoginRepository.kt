@@ -14,8 +14,8 @@ sealed class AuthResult<T> {
 }
 
 @AppScope
-class LoginService @Inject constructor(
-    private val loginApi: FirebaseLoginApi,
+class LoginRepository @Inject constructor(
+    private val loginApi: LoginApi,
     private val usersRepository: UsersRepository
 ) {
 
@@ -25,6 +25,10 @@ class LoginService @Inject constructor(
 
     fun isLoggedIn(): Boolean {
         return loginApi.isLoggedIn()
+    }
+
+    fun currentUser(): User {
+        return loginApi.currentUser()
     }
 
     suspend fun signup(email: String, password: String): AuthResult<User> {

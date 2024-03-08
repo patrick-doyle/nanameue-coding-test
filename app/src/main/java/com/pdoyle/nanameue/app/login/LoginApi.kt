@@ -4,7 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.firestore.FirebaseFirestore
 import com.pdoyle.nanameue.app.AppScope
 import com.pdoyle.nanameue.app.users.User
 import com.pdoyle.nanameue.app.users.toAppUser
@@ -17,7 +16,7 @@ import javax.inject.Inject
  * to other sign up methods in the future.
  */
 @AppScope
-class FirebaseLoginApi @Inject constructor(private val firebaseAuth: FirebaseAuth) {
+class LoginApi @Inject constructor(private val firebaseAuth: FirebaseAuth) {
 
     suspend fun login(email: String, password: String): AuthResult<User> {
         return try {
@@ -59,5 +58,14 @@ class FirebaseLoginApi @Inject constructor(private val firebaseAuth: FirebaseAut
 
     fun signout() {
         firebaseAuth.signOut()
+    }
+
+    fun currentUser(): User {
+        val firebaseUser = firebaseAuth.currentUser!!
+        return User(
+            id = firebaseUser.uid,
+            username = firebaseUser.displayName ?: emptyString(),
+            email = firebaseUser.email ?: emptyString()
+        )
     }
 }

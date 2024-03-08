@@ -7,12 +7,9 @@
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
     <string name="image_content">Image Content</string>
-
-    <string name="permission_denied">Permission Denied</string>
-    <string name="camera_required">Camera Required</string>
-    <string name="camera_required_desc">This Device Requires a camera to work</string>
-    <string name="requires_camera_permission">This App requires the camera permission to operate</string>
-    <string name="open_permission_settings">Open Permission Settings</string>
+    <string name="create_post">Create Post</string>
+    <string name="posts">Posts</string>
+    <string name="select_image">Select Image</string>
 
     <string name="login_error_cred_wrong">Email or password is invalid</string>
     <string name="login_error_user_exists">User exists for email</string>

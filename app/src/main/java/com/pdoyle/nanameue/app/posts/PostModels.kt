@@ -12,12 +12,17 @@ data class Post(
     val author: User,
     val text: String,
     val postedAt: LocalDateTime,
-    val imageUrl: String
+    val imageUrl: String?
 )
 
 data class PostSubmit(
     val authorId: String,
-    val text: String,
+    val text: String?,
+    val imageUrl: String?
+)
+
+data class PostForm(
+    val text: String?,
     val imageUrl: String?
 )
 

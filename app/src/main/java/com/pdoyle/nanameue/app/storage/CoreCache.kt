@@ -1,7 +1,7 @@
 package com.pdoyle.nanameue.app.storage
 
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 /**

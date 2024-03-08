@@ -1,8 +1,8 @@
 package com.pdoyle.nanameue.features.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import com.pdoyle.nanameue.features.login.view.LoginView
 import com.pdoyle.nanameue.util.appComponent
 import javax.inject.Inject
