@@ -15,6 +15,11 @@ object TestData {
     const val POST_3_ID = "mock_post_3_id"
     const val POST_4_ID = "mock_post_4_id"
 
+    const val EMAIL = "test@example.com"
+    const val INVALID_EMAIL = "test.at.example.com"
+    const val PASSWORD = "password"
+    const val INVALID_PASSWORD = ""
+
     fun posts() = listOf(
         createPost(POST_1_ID, USER_1_ID),
         createPost(POST_2_ID, USER_1_ID),

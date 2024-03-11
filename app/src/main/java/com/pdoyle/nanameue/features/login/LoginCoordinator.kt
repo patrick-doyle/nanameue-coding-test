@@ -64,7 +64,10 @@ class LoginCoordinator(
                 }
 
                 when (authResult) {
-                    is AuthResult.Success -> activityUseCase.openTimelineActivity()
+                    is AuthResult.Success -> {
+                        activityUseCase.openTimelineActivity()
+                        activityUseCase.finish()
+                    }
                     is AuthResult.Error -> view.showLoginError(authResult.error)
                 }
             }

@@ -1,4 +1,4 @@
-package com.pdoyle.nanameue.feature.posts
+package com.pdoyle.nanameue.features.posts
 
 import com.google.common.truth.Truth
 import com.pdoyle.nanameue.app.posts.Post
@@ -20,7 +20,6 @@ class PostsUseCaseTest {
 
     private val repository = mockk<PostsRepository>(relaxed = true)
     private val connectivityManager = mockk<ConnectivityManagerProxy>(relaxed = true)
-
 
     private lateinit var useCase: PostsUseCase
 
