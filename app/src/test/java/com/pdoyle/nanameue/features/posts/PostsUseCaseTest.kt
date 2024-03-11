@@ -1,7 +1,6 @@
 package com.pdoyle.nanameue.features.posts
 
 import com.google.common.truth.Truth
-import com.pdoyle.nanameue.app.posts.Post
 import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
@@ -10,7 +9,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,16 +54,18 @@ class PostsUseCaseTest {
     }
 
     @Test
-    fun listenForNewPosts() {
+    fun listenForNewPosts() = runTest {
         //GIVEN
-        val flow = emptyFlow<List<Post>>()
+        val testPosts = TestData.posts()
+        val flow = flowOf(testPosts)
         coEvery { repository.listenForNewPosts() } returns flow
 
         //WHEN
         val resultData = useCase.listenForNewPosts()
+            .toList()[0]
 
         //THEN
-        Truth.assertThat(resultData).isEqualTo(flow)
+        Truth.assertThat(resultData).isEqualTo(testPosts)
     }
 
     @Test

@@ -7,20 +7,14 @@ import com.pdoyle.nanameue.features.login.view.LoginView
 import com.pdoyle.nanameue.test.TestData
 import com.pdoyle.nanameue.util.EventStream
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.coroutines.CoroutineContext
 
 class LoginCoordinatorTest {
 

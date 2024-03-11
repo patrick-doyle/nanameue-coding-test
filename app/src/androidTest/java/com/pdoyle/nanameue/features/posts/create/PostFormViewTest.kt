@@ -4,7 +4,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.common.truth.Truth
 import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.util.emptyString
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 

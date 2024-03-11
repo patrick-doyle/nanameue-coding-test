@@ -4,8 +4,6 @@ import com.pdoyle.nanameue.app.login.AuthResult
 import com.pdoyle.nanameue.features.login.view.LoginView
 import com.pdoyle.nanameue.util.AppDispatchers
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class LoginCoordinator(

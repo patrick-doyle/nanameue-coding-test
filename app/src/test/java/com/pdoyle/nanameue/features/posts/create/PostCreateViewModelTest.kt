@@ -53,7 +53,7 @@ class PostCreateViewModelTest {
 
         //THEN
         advanceUntilIdle()
-        viewModel.uiState.test(timeout = 50.milliseconds) {
+        viewModel.uiStateFlow().test(timeout = 50.milliseconds) {
            Truth.assertThat(awaitItem()).isEqualTo(stateAfterSubmit)
         }
 
@@ -73,7 +73,7 @@ class PostCreateViewModelTest {
 
         //THEN
         advanceUntilIdle()
-        viewModel.uiState.test(timeout = 50.milliseconds) {
+        viewModel.uiStateFlow().test(timeout = 50.milliseconds) {
            Truth.assertThat(awaitItem()).isEqualTo(stateAfterSubmit)
         }
     }
@@ -90,7 +90,7 @@ class PostCreateViewModelTest {
 
         //THEN
         advanceUntilIdle()
-        viewModel.uiState.test(timeout = 50.milliseconds) {
+        viewModel.uiStateFlow().test(timeout = 50.milliseconds) {
            Truth.assertThat(awaitItem()).isEqualTo(stateAfterSubmit)
         }
     }

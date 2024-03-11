@@ -3,9 +3,6 @@ package com.pdoyle.nanameue.features.login.view
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.common.truth.Truth
 import com.pdoyle.nanameue.features.login.LoginFormSubmit
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -29,7 +29,7 @@ fun PostsTimelineScreen(
     postsTimelineViewModel: PostsTimelineViewModel = viewModel()
 ) {
 
-    val timelineViewState by postsTimelineViewModel.uiState.collectAsState()
+    val timelineViewState by postsTimelineViewModel.uiStateFlow().collectAsState()
 
     Scaffold(
         floatingActionButton = {

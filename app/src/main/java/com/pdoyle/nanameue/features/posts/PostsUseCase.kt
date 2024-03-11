@@ -1,7 +1,7 @@
 package com.pdoyle.nanameue.features.posts
 
-import com.pdoyle.nanameue.app.posts.Post
 import com.pdoyle.nanameue.app.posts.CreatePostForm
+import com.pdoyle.nanameue.app.posts.Post
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
 import kotlinx.coroutines.flow.Flow
