@@ -5,6 +5,7 @@ import com.pdoyle.nanameue.app.posts.PostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @PostScope
@@ -23,6 +24,9 @@ class PostsUseCase @Inject constructor(
 
     fun listenForNewPosts(): Flow<List<Post>> {
         return postsRepository.listenForNewPosts()
+            .onEach {
+                it.sortedByDescending { post -> post.postedAt }
+            }
     }
 
     fun isConnected(): Boolean {

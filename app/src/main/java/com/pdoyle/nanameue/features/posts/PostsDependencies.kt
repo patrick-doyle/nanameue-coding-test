@@ -39,18 +39,19 @@ class PostsModule(private val postsActivity: PostsActivity) {
     fun postsTimelineViewModelFactory(
         postsUseCase: PostsUseCase,
         appDispatchers: AppDispatchers,
-        postScreenNav: PostScreenNav,
-        loginRepository: LoginRepository
+        postScreenNav: PostScreenNav
     ) = PostsTimelineViewModelFactory(
         postsUseCase,
         postScreenNav,
-        appDispatchers,
-        loginRepository
+        appDispatchers
     )
 
     @Provides
     @PostScope
-    fun postScreenViewModelFactory(postScreenNav: PostScreenNav) =
-        PostScreenViewModelFactory(postScreenNav)
+    fun postScreenViewModelFactory(
+        postScreenNav: PostScreenNav,
+        loginRepository: LoginRepository
+    ) =
+        PostScreenViewModelFactory(postScreenNav, loginRepository)
 
 }

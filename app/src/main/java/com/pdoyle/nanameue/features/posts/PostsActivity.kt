@@ -67,6 +67,13 @@ class PostsActivity : ComponentActivity() {
                             },
                             actions = {
                                 TextButton(onClick = {
+                                    postsTimelineViewModel.refresh()
+                                }) {
+                                    Text(
+                                        text = stringResource(id = R.string.refresh)
+                                    )
+                                }
+                                TextButton(onClick = {
                                     postScreenViewModel.onLogout()
                                 }) {
                                     Text(

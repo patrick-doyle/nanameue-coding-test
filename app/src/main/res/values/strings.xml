@@ -22,5 +22,6 @@
     <string name="login_error_bad_email">Email is invalid</string>
     <string name="login_error_bad_password">Password cannot be blank</string>
     <string name="logout">Logout</string>
+    <string name="refresh">Refresh</string>
     <string name="make_post">New Post</string>
 </resources>

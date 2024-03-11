@@ -19,7 +19,6 @@ import kotlinx.coroutines.withContext
 class PostsTimelineViewModel(
     private val postsUseCase: PostsUseCase,
     private val postScreenNav: PostScreenNav,
-    private val loginRepository: LoginRepository,
     private val appDispatchers: AppDispatchers
 ) : ViewModel() {
 
@@ -50,14 +49,12 @@ class PostsTimelineViewModel(
         }
     }
 
-    fun onLogout() {
-        loginRepository.logout()
-        postScreenNav.launchLoginActivity()
-        postScreenNav.finishHostActivity()
-    }
-
     fun onFabClicked() {
         postScreenNav.showNewPostScreen()
+    }
+
+    fun refresh() {
+        loadPosts()
     }
 }
 
@@ -65,11 +62,10 @@ class PostsTimelineViewModel(
 class PostsTimelineViewModelFactory(
     private val postsUseCase: PostsUseCase,
     private val postScreenNav: PostScreenNav,
-    private val appDispatchers: AppDispatchers,
-    private val loginRepository: LoginRepository
+    private val appDispatchers: AppDispatchers
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PostsTimelineViewModel(postsUseCase, postScreenNav, loginRepository, appDispatchers) as T
+        return PostsTimelineViewModel(postsUseCase, postScreenNav, appDispatchers) as T
     }
 }
