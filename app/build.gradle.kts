@@ -29,6 +29,20 @@ android {
         }
     }
 
+    packaging {
+        resources.excludes.addAll(
+            listOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+            )
+        )
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
+
     buildFeatures {
         compose = true
     }

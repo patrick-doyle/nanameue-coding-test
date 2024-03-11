@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,6 +86,7 @@ fun PostForm(
             value = createPostForm.text ?: emptyString(),
             modifier = Modifier
                 .fillMaxWidth(0.9f)
+                .testTag("post_text")
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             onChange = { createPostForm = createPostForm.copy(text = it) },
             submit = {
@@ -113,6 +115,7 @@ fun PostForm(
             },
             modifier = Modifier
                 .fillMaxWidth(0.9f)
+                .testTag("create_post")
                 .padding(horizontal = 8.dp, vertical = 4.dp),
         ) {
             Text(

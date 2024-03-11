@@ -99,7 +99,7 @@ firebase = ["firebase-auth", "firebase-firestore", "firebase-storage"]
 androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx", "androidx-activity-ktx"]
 compose-debug = ["androidx-compose-uitooling", "androidx-test-compose-manifest", ]
 compose = ["androidx-compose", "androidx-compose-ui", "androidx-compose-activity", "androidx-compose-lifecycle", "androidx-compose-navigation", "androidx-compose-constraint"]
-espresso = ["androidx-test-espresso-core", "androidx-test-compose-ui", "androidx-test-compose-manifest", "androidx-test-runner", "androidx-test-rules", "truth", "turbine"]
+espresso = ["mockk", "androidx-test-espresso-core", "androidx-test-compose-ui", "androidx-test-compose-manifest", "androidx-test-runner", "androidx-test-rules", "truth", "turbine"]
 
 [plugins]
 # Buildscript plugins

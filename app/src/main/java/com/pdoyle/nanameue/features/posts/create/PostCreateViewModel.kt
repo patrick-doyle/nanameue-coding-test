@@ -9,7 +9,6 @@ import com.pdoyle.nanameue.features.posts.PostScreenNav
 import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +20,6 @@ class PostCreateViewModel(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PostCreateViewState())
-    val uiState: StateFlow<PostCreateViewState> = _uiState.asStateFlow()
 
     init {
         _uiState.value = PostCreateViewState()
@@ -52,6 +50,8 @@ class PostCreateViewModel(
             }
         }
     }
+
+    fun uiStateFlow() = _uiState.asStateFlow()
 }
 
 @Suppress("UNCHECKED_CAST")

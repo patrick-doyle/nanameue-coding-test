@@ -17,7 +17,7 @@ fun PostCreateScreen(postCreateViewModel: PostCreateViewModel) {
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val postCreateViewState by postCreateViewModel.uiState.collectAsState()
+    val postCreateViewState by postCreateViewModel.uiStateFlow().collectAsState()
 
     if (postCreateViewState.error) {
         val snackbarMessage: String = stringResource(id = postCreateViewState.errorMessage)
