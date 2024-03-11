@@ -1,8 +1,6 @@
 package com.pdoyle.nanameue.features.posts
 
-import android.net.ConnectivityManager
 import com.pdoyle.nanameue.app.login.LoginRepository
-import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.features.posts.create.PostCreateViewModelFactory
 import com.pdoyle.nanameue.features.posts.timeline.PostsTimelineViewModelFactory
 import com.pdoyle.nanameue.util.AppDispatchers
@@ -21,21 +19,19 @@ interface PostComponent {
 }
 
 @Module
-class PostsModule {
+class PostsModule(private val postsActivity: PostsActivity) {
 
     @Provides
     @PostScope
-    fun postsUseCase(
-        postsRepository: PostsRepository,
-        connectivityManager: ConnectivityManager
-    ) = PostsUseCase(postsRepository, connectivityManager)
+    fun postScreenNav() = PostScreenNav(postsActivity)
 
     @Provides
     @PostScope
     fun postsCreateViewModelFactory(
         postsUseCase: PostsUseCase,
+        postScreenNav: PostScreenNav,
         appDispatchers: AppDispatchers
-    ) = PostCreateViewModelFactory(postsUseCase, appDispatchers)
+    ) = PostCreateViewModelFactory(postsUseCase, postScreenNav, appDispatchers)
 
 
     @Provides
@@ -43,7 +39,18 @@ class PostsModule {
     fun postsTimelineViewModelFactory(
         postsUseCase: PostsUseCase,
         appDispatchers: AppDispatchers,
+        postScreenNav: PostScreenNav,
         loginRepository: LoginRepository
-    ) = PostsTimelineViewModelFactory(postsUseCase, appDispatchers, loginRepository)
+    ) = PostsTimelineViewModelFactory(
+        postsUseCase,
+        postScreenNav,
+        appDispatchers,
+        loginRepository
+    )
+
+    @Provides
+    @PostScope
+    fun postScreenViewModelFactory(postScreenNav: PostScreenNav) =
+        PostScreenViewModelFactory(postScreenNav)
 
 }

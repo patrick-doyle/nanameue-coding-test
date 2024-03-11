@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.pdoyle.nanameue.app.login.LoginRepository
+import com.pdoyle.nanameue.features.posts.PostScreenNav
 import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.withContext
 
 class PostsTimelineViewModel(
     private val postsUseCase: PostsUseCase,
+    private val postScreenNav: PostScreenNav,
     private val loginRepository: LoginRepository,
     private val appDispatchers: AppDispatchers
 ) : ViewModel() {
@@ -50,17 +52,24 @@ class PostsTimelineViewModel(
 
     fun onLogout() {
         loginRepository.logout()
+        postScreenNav.launchLoginActivity()
+        postScreenNav.finishHostActivity()
+    }
+
+    fun onFabClicked() {
+        postScreenNav.showNewPostScreen()
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 class PostsTimelineViewModelFactory(
     private val postsUseCase: PostsUseCase,
+    private val postScreenNav: PostScreenNav,
     private val appDispatchers: AppDispatchers,
     private val loginRepository: LoginRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PostsTimelineViewModel(postsUseCase, loginRepository, appDispatchers) as T
+        return PostsTimelineViewModel(postsUseCase, postScreenNav, loginRepository, appDispatchers) as T
     }
 }

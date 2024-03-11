@@ -1,6 +1,6 @@
 package com.pdoyle.nanameue.app.login
 
-import android.util.Patterns
+import androidx.core.util.PatternsCompat
 import com.pdoyle.nanameue.app.AppScope
 import com.pdoyle.nanameue.app.users.User
 import com.pdoyle.nanameue.app.users.UsersRepository
@@ -41,21 +41,12 @@ class LoginRepository @Inject constructor(
         return result
     }
 
-    fun validateEmail(email: String): AuthResult<Boolean> {
-        val valid = email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        return if (valid) {
-            AuthResult.Success(true)
-        } else {
-            AuthResult.Error(LoginError.MalformedEmail())
-        }
+    fun validateEmail(email: String): Boolean  {
+        return email.isNotBlank() && PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    fun validatePassword(password: String): AuthResult<Boolean> {
-        return if (password.isNotBlank()) {
-            AuthResult.Success(true)
-        } else {
-            AuthResult.Error(LoginError.MalformedPassword())
-        }
+    fun validatePassword(password: String): Boolean {
+        return password.isNotBlank()
     }
 
     fun logout() {

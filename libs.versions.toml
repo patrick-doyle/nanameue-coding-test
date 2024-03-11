@@ -24,8 +24,11 @@ timber = "5.0.1"
 coil = "2.2.2"
 
 junit = "4.13.2"
+corutinesTest = "1.8.0"
 androidJunit = "1.1.5"
 espressoCore = "3.5.1"
+mockk = "1.13.10"
+truth = "1.4.2"
 
 [libraries]
 #Koltin & Coroutines
@@ -68,11 +71,15 @@ coil = { module = "io.coil-kt:coil-compose", version.ref = "coil"}
 
 #testing
 junit = { module = "junit:junit", version.ref = "junit" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "corutinesTest" }
+mockk = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidJunit" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 
 [bundles]
 # Define bundles/groups of libraries
+unitTests = ["junit", "androidx-junit", "mockk", "coroutines-test", "truth"]
 coroutines = ["kotlin", "kotlinx-coroutines-android"]
 firebase = ["firebase-auth", "firebase-firestore", "firebase-storage"]
 androidx = ["androidx-ktx", "androidx-appcompat", "androidx-constraintlayout", "androidx-lifecycle-ktx", "androidx-activity-ktx"]

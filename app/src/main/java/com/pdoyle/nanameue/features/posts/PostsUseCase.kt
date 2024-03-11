@@ -1,16 +1,16 @@
 package com.pdoyle.nanameue.features.posts
 
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import com.pdoyle.nanameue.app.posts.Post
 import com.pdoyle.nanameue.app.posts.PostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
+import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-
-class PostsUseCase(
+@PostScope
+class PostsUseCase @Inject constructor(
     private val postsRepository: PostsRepository,
-    private val connectivityManager: ConnectivityManager
+    private val connectivityManager: ConnectivityManagerProxy
 ) {
 
     suspend fun getPosts(): List<Post> {
@@ -26,15 +26,7 @@ class PostsUseCase(
     }
 
     fun isConnected(): Boolean {
-        val networkCapabilities = connectivityManager.activeNetwork ?: return false
-        val actNw =
-            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-        return when {
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
+        return connectivityManager.hasConnection()
     }
 
 }

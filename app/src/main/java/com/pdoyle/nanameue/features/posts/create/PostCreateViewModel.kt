@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.app.posts.PostForm
+import com.pdoyle.nanameue.features.posts.PostScreenNav
 import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.util.AppDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
 
 class PostCreateViewModel(
     private val postsUseCase: PostsUseCase,
+    private val postScreenNav: PostScreenNav,
     private val appDispatchers: AppDispatchers
 ) : ViewModel() {
 
@@ -44,6 +46,7 @@ class PostCreateViewModel(
                     postsUseCase.createPost(postSubmit)
                 }
                 _uiState.value = _uiState.value.copy(loading = false, error = false)
+                postScreenNav.navigateBack()
             } catch (error: Exception) {
                 _uiState.value = _uiState.value.copy(loading = false, error = true)
             }
@@ -54,10 +57,11 @@ class PostCreateViewModel(
 @Suppress("UNCHECKED_CAST")
 class PostCreateViewModelFactory(
     private val postsUseCase: PostsUseCase,
+    private val postsActivityUseCase: PostScreenNav,
     private val appDispatchers: AppDispatchers
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PostCreateViewModel(postsUseCase, appDispatchers) as T
+        return PostCreateViewModel(postsUseCase, postsActivityUseCase, appDispatchers) as T
     }
 }

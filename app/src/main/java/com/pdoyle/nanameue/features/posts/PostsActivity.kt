@@ -1,5 +1,6 @@
 package com.pdoyle.nanameue.features.posts
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.features.common.theme.NanameueTheme
-import com.pdoyle.nanameue.features.login.LoginActivity
 import com.pdoyle.nanameue.features.posts.create.PostCreateScreen
 import com.pdoyle.nanameue.features.posts.create.PostCreateViewModel
 import com.pdoyle.nanameue.features.posts.create.PostCreateViewModelFactory
@@ -36,20 +36,28 @@ class PostsActivity : ComponentActivity() {
     @Inject
     lateinit var postsTimelineViewModelFactory: PostsTimelineViewModelFactory
 
+    @Inject
+    lateinit var postScreenViewModelFactory: PostScreenViewModelFactory
+
+    @Inject
+    lateinit var postScreenNav: PostScreenNav
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         appComponent()
-            .postsComponent(PostsModule())
+            .postsComponent(PostsModule(this))
             .inject(this)
 
         val postCreateViewModel = ViewModelProvider(this, postsCreateViewModelFactory)[PostCreateViewModel::class.java]
         val postsTimelineViewModel = ViewModelProvider(this, postsTimelineViewModelFactory)[PostsTimelineViewModel::class.java]
+        val postScreenViewModel = ViewModelProvider(this, postScreenViewModelFactory)[PostScreenViewModel::class.java]
 
         setContent {
             NanameueTheme {
                 val navController = rememberNavController()
+                postScreenNav.setNavController(navController)
 
                 Scaffold(
                     topBar = {
@@ -59,9 +67,7 @@ class PostsActivity : ComponentActivity() {
                             },
                             actions = {
                                 TextButton(onClick = {
-                                    postsTimelineViewModel.onLogout()
-                                    startActivity(Intent(this@PostsActivity, LoginActivity::class.java))
-                                    this@PostsActivity.finish()
+                                    postScreenViewModel.onLogout()
                                 }) {
                                     Text(
                                         text = stringResource(id = R.string.logout)
@@ -77,16 +83,22 @@ class PostsActivity : ComponentActivity() {
                         startDestination = "posts",
                         Modifier.padding(paddingValues)
                     ) {
-                        composable("posts") {
-                            PostsTimelineScreen(navController, postsTimelineViewModel = postsTimelineViewModel)
+                        composable(PostScreenNav.POSTS_ROUTE) {
+                            PostsTimelineScreen(postsTimelineViewModel = postsTimelineViewModel)
                         }
-                        composable("posts/new") {
+                        composable(PostScreenNav.NEW_POSTS_ROUTE) {
                             PostCreateScreen(postCreateViewModel = postCreateViewModel)
                         }
 
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            activity.startActivity(Intent(activity, PostsActivity::class.java))
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.pdoyle.nanameue.features.login
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -27,5 +29,11 @@ class LoginActivity : AppCompatActivity() {
             view.Compose()
         }
         presenter.onCreate()
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            activity.startActivity(Intent(activity, LoginActivity::class.java))
+        }
     }
 }

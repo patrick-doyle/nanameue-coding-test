@@ -1,6 +1,7 @@
 package com.pdoyle.nanameue.features.login
 
 import com.pdoyle.nanameue.app.login.AuthResult
+import com.pdoyle.nanameue.app.login.LoginError
 import com.pdoyle.nanameue.app.login.LoginRepository
 import com.pdoyle.nanameue.app.users.User
 import javax.inject.Inject
@@ -22,12 +23,12 @@ class LoginUseCase @Inject constructor(private val loginRepository: LoginReposit
 
     fun validate(submit: LoginFormSubmit): AuthResult<Boolean> {
         val validEmailResult = loginRepository.validateEmail(submit.email)
-        if(validEmailResult is AuthResult.Error) {
-            return validEmailResult
+        if(!validEmailResult) {
+            return AuthResult.Error(LoginError.MalformedEmail())
         }
         val validPasswordResult = loginRepository.validatePassword(submit.password)
-        if(validPasswordResult is AuthResult.Error) {
-            return validPasswordResult
+        if(!validPasswordResult) {
+            return AuthResult.Error(LoginError.MalformedPassword())
         }
         return AuthResult.Success(true)
     }

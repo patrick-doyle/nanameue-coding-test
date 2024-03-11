@@ -2,11 +2,11 @@ package com.pdoyle.nanameue.app
 
 import android.content.ContentResolver
 import android.content.Context
-import android.net.ConnectivityManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
+import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
 import com.pdoyle.nanameue.features.login.LoginComponent
 import com.pdoyle.nanameue.features.login.LoginModule
 import com.pdoyle.nanameue.features.posts.PostComponent
@@ -54,8 +54,8 @@ class AppModule(private val context: Context) {
 
     @Provides
     @AppScope
-    fun connectivityManager(): ConnectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun connectivityManager(): ConnectivityManagerProxy =
+        ConnectivityManagerProxy.create(context)
 
     @Provides
     @AppScope

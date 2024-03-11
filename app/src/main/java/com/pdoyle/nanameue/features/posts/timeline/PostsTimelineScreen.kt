@@ -21,13 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.features.common.LoadingDialog
 
 @Composable
 fun PostsTimelineScreen(
-    navController: NavHostController,
     postsTimelineViewModel: PostsTimelineViewModel = viewModel()
 ) {
 
@@ -35,7 +33,7 @@ fun PostsTimelineScreen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate("posts/new") }) {
+            FloatingActionButton(onClick = { postsTimelineViewModel.onFabClicked() }) {
                 Icon(
                     Icons.Default.Add,
                     contentDescription = stringResource(id = R.string.make_post)
