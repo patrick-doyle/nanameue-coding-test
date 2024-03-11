@@ -35,28 +35,28 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.pdoyle.nanameue.R
-import com.pdoyle.nanameue.app.posts.PostForm
+import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.util.emptyString
 
 @Composable
 fun PostForm(
     innerPadding: PaddingValues = PaddingValues(0.dp),
-    onPostSubmit: (PostForm) -> Unit = {},
+    onPostSubmit: (CreatePostForm) -> Unit = {},
 ) {
 
-    var postForm: PostForm by remember {
-        mutableStateOf(PostForm(emptyString(), emptyString()))
+    var createPostForm: CreatePostForm by remember {
+        mutableStateOf(CreatePostForm(emptyString(), emptyString()))
     }
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            postForm = postForm.copy(imageUrl = uri.toString())
+            createPostForm = createPostForm.copy(imageUrl = uri.toString())
         }
 
     val painter = rememberAsyncImagePainter(
         ImageRequest
             .Builder(LocalContext.current)
-            .data(data = postForm.imageUrl)
+            .data(data = createPostForm.imageUrl)
             .build()
     )
 
@@ -69,7 +69,7 @@ fun PostForm(
             .verticalScroll(rememberScrollState())
     ) {
 
-        if (postForm.imageUrl != null) {
+        if (createPostForm.imageUrl != null) {
             Image(
                 painter = painter,
                 contentScale = ContentScale.Crop,
@@ -82,13 +82,13 @@ fun PostForm(
 
         PostField(
             label = stringResource(R.string.create_post),
-            value = postForm.text ?: emptyString(),
+            value = createPostForm.text ?: emptyString(),
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
-            onChange = { postForm = postForm.copy(text = it) },
+            onChange = { createPostForm = createPostForm.copy(text = it) },
             submit = {
-                onPostSubmit(postForm)
+                onPostSubmit(createPostForm)
             }
         )
         TextButton(
@@ -109,7 +109,7 @@ fun PostForm(
         }
         TextButton(
             onClick = {
-                onPostSubmit(postForm)
+                onPostSubmit(createPostForm)
             },
             modifier = Modifier
                 .fillMaxWidth(0.9f)

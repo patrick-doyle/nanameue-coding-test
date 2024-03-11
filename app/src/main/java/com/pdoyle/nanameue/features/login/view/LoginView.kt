@@ -22,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,9 +30,9 @@ import com.pdoyle.nanameue.R
 import com.pdoyle.nanameue.app.login.LoginError
 import com.pdoyle.nanameue.features.login.LoginFormSubmit
 import com.pdoyle.nanameue.features.login.LoginScope
+import com.pdoyle.nanameue.util.EventStream
 import com.pdoyle.nanameue.util.emptyString
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,8 +41,8 @@ import javax.inject.Inject
 class LoginView @Inject constructor() {
 
     //flows for user interaction
-    private val onLoginFlow = MutableSharedFlow<LoginFormSubmit>(0)
-    private val onSignupFlow = MutableSharedFlow<LoginFormSubmit>(0)
+    private val onLoginEvents = EventStream<LoginFormSubmit>()
+    private val onSignupEvents = EventStream<LoginFormSubmit>()
 
     //updatable state
     private val _snackBarTextId = mutableIntStateOf(0)
@@ -49,7 +50,6 @@ class LoginView @Inject constructor() {
     @Composable
     @Preview
     fun Compose() {
-        val scope = rememberCoroutineScope()
         var formData: LoginFormSubmit by remember {
             mutableStateOf(LoginFormSubmit(emptyString(), emptyString()))
         }
@@ -91,6 +91,7 @@ class LoginView @Inject constructor() {
                         label = stringResource(R.string.email),
                         value = formData.email,
                         modifier = Modifier.fillMaxWidth(0.9f)
+                            .testTag("email_input")
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                         onChange = { formData = formData.copy(email = it) },
                     )
@@ -98,21 +99,19 @@ class LoginView @Inject constructor() {
                         label = stringResource(R.string.password),
                         value = formData.password,
                         modifier = Modifier.fillMaxWidth(0.9f)
+                            .testTag("password_input")
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                         onChange = { formData = formData.copy(password = it) },
                         submit = {
-                            scope.launch {
-                                submitForm(formData)
-                            }
+                            onLoginEvents.sendEvent(formData)
                         }
                     )
                     TextButton(
                         onClick = {
-                            scope.launch {
-                                submitForm(formData)
-                            }
+                            onLoginEvents.sendEvent(formData)
                         },
                         modifier = Modifier.fillMaxWidth(0.9f)
+                            .testTag("login_button")
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                     ) {
                         Text(
@@ -121,11 +120,10 @@ class LoginView @Inject constructor() {
                     }
                     TextButton(
                         onClick = {
-                            scope.launch {
-                                onSignupFlow.emit(formData)
-                            }
+                            onSignupEvents.sendEvent(formData)
                         },
                         modifier = Modifier.fillMaxWidth(0.9f)
+                            .testTag("signup_button")
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                     ) {
                         Text(
@@ -137,16 +135,12 @@ class LoginView @Inject constructor() {
         }
     }
 
-    fun listenForLoginSubmission(): Flow<LoginFormSubmit> {
-        return onLoginFlow.asSharedFlow()
+    fun listenForLoginSubmission(): EventStream<LoginFormSubmit> {
+        return onLoginEvents
     }
 
-    fun listenForSignUpSubmission(): Flow<LoginFormSubmit> {
-        return onSignupFlow.asSharedFlow()
-    }
-
-    private suspend fun submitForm(formData: LoginFormSubmit) {
-       onLoginFlow.emit(formData)
+    fun listenForSignUpSubmission(): EventStream<LoginFormSubmit> {
+        return onSignupEvents
     }
 
     fun showLoginError(error: LoginError) {

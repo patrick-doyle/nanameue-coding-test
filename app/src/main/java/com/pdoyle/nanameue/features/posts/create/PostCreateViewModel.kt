@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.pdoyle.nanameue.R
-import com.pdoyle.nanameue.app.posts.PostForm
+import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.features.posts.PostScreenNav
 import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.util.AppDispatchers
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 class PostCreateViewModel(
     private val postsUseCase: PostsUseCase,
     private val postScreenNav: PostScreenNav,
-    private val appDispatchers: AppDispatchers
+    private val appDispatchers: AppDispatchers,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PostCreateViewState())
@@ -27,7 +27,7 @@ class PostCreateViewModel(
         _uiState.value = PostCreateViewState()
     }
 
-    fun submitForm(postSubmit: PostForm) {
+    fun submitForm(postSubmit: CreatePostForm) {
         if(!postsUseCase.isConnected()) {
             _uiState.value = _uiState.value.copy(error = true,
                 errorMessage = R.string.post_error_connection)

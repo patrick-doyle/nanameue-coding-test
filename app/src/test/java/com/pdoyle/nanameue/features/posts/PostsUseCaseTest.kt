@@ -2,10 +2,9 @@ package com.pdoyle.nanameue.features.posts
 
 import com.google.common.truth.Truth
 import com.pdoyle.nanameue.app.posts.Post
-import com.pdoyle.nanameue.app.posts.PostForm
+import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
-import com.pdoyle.nanameue.features.posts.PostsUseCase
 import com.pdoyle.nanameue.test.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -44,7 +43,7 @@ class PostsUseCaseTest {
     @Test
     fun createPost() = runTest {
         //GIVEN
-        val post = PostForm("post_text", "")
+        val post = CreatePostForm("post_text", "")
         coEvery { repository.createPost(post) } returns Unit
 
         //WHEN

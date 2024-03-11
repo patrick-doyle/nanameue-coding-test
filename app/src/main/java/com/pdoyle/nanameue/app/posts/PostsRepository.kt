@@ -15,7 +15,7 @@ class PostsRepository @Inject constructor(
         return postsApi.getPosts()
     }
 
-    suspend fun createPost(postSubmit: PostForm) {
+    suspend fun createPost(postSubmit: CreatePostForm) {
         val currentUser = loginRepository.currentUser()
         postsApi.makePost(PostSubmit(
             authorId = currentUser.id,

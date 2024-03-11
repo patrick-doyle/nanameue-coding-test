@@ -5,6 +5,7 @@ import com.pdoyle.nanameue.app.login.AuthResult
 import com.pdoyle.nanameue.app.login.LoginError
 import com.pdoyle.nanameue.features.login.view.LoginView
 import com.pdoyle.nanameue.test.TestData
+import com.pdoyle.nanameue.util.EventStream
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -24,21 +25,21 @@ import kotlin.coroutines.CoroutineContext
 class LoginCoordinatorTest {
 
 
-    private val dispatchers =  TestAppDispatchers()
+    private val dispatchers = TestAppDispatchers()
     private val scope: TestScope = TestScope(dispatchers.getTestDispatcher())
-    private val scheduler =  scope.testScheduler
+    private val scheduler = scope.testScheduler
 
     private val view: LoginView = mockk(relaxed = true)
     private val loginUseCase: LoginUseCase = mockk(relaxed = true)
-    private val activityUseCase: LoginActivityUseCase= mockk(relaxed = true)
+    private val activityUseCase: LoginActivityUseCase = mockk(relaxed = true)
 
     private lateinit var loginCoordinator: LoginCoordinator
 
     @BeforeEach
     fun setUp() {
         every { loginUseCase.isLoggedIn() } returns false
-        every { view.listenForSignUpSubmission() } returns emptyFlow()
-        every { view.listenForLoginSubmission() } returns emptyFlow()
+        every { view.listenForSignUpSubmission() } returns EventStream()
+        every { view.listenForLoginSubmission() } returns EventStream()
 
         loginCoordinator = LoginCoordinator(view, scope, dispatchers, loginUseCase, activityUseCase)
     }
@@ -61,18 +62,20 @@ class LoginCoordinatorTest {
 
         private val loginFormSubmit = LoginFormSubmit(TestData.EMAIL, TestData.PASSWORD)
         private val user = TestData.createUser()
+        private val eventFlow = EventStream<LoginFormSubmit>()
 
         @BeforeEach
         fun setUp() {
-            every { view.listenForLoginSubmission() } returns flowOf(loginFormSubmit)
+            every { view.listenForLoginSubmission() } returns eventFlow
             coEvery { loginUseCase.validate(loginFormSubmit) } returns AuthResult.Success(true)
             coEvery { loginUseCase.login(loginFormSubmit) } returns AuthResult.Success(user)
         }
 
         @Test
-        fun listenForLoginSubmission() = scope.runTest {
+        fun listenForLoginSubmission() {
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN
@@ -82,13 +85,14 @@ class LoginCoordinatorTest {
         }
 
         @Test
-        fun listenForLogin_SubmissionInvalidForm() = scope.runTest {
+        fun listenForLogin_SubmissionInvalidForm() {
             //GIVEN
             val error = LoginError.MalformedEmail()
             coEvery { loginUseCase.validate(loginFormSubmit) } returns AuthResult.Error(error)
 
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN
@@ -105,6 +109,7 @@ class LoginCoordinatorTest {
 
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN
@@ -117,18 +122,20 @@ class LoginCoordinatorTest {
 
         private val loginFormSubmit = LoginFormSubmit(TestData.EMAIL, TestData.PASSWORD)
         private val user = TestData.createUser()
+        private val eventFlow = EventStream<LoginFormSubmit>()
 
         @BeforeEach
         fun setUp() {
-            every { view.listenForSignUpSubmission() } returns flowOf(loginFormSubmit)
+            every { view.listenForSignUpSubmission() } returns eventFlow
             coEvery { loginUseCase.validate(loginFormSubmit) } returns AuthResult.Success(true)
             coEvery { loginUseCase.signup(loginFormSubmit) } returns AuthResult.Success(user)
         }
 
         @Test
-        fun listenForLoginSubmission() = scope.runTest {
+        fun listenForLoginSubmission() {
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN
@@ -138,13 +145,14 @@ class LoginCoordinatorTest {
         }
 
         @Test
-        fun listenForLogin_SubmissionInvalidForm() = scope.runTest {
+        fun listenForLogin_SubmissionInvalidForm() {
             //GIVEN
             val error = LoginError.MalformedEmail()
             coEvery { loginUseCase.validate(loginFormSubmit) } returns AuthResult.Error(error)
 
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN
@@ -161,6 +169,7 @@ class LoginCoordinatorTest {
 
             //WHEN
             loginCoordinator.onCreate()
+            eventFlow.sendEvent(loginFormSubmit)
             scheduler.advanceUntilIdle()
 
             //THEN

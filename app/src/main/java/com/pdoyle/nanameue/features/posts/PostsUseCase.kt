@@ -1,7 +1,7 @@
 package com.pdoyle.nanameue.features.posts
 
 import com.pdoyle.nanameue.app.posts.Post
-import com.pdoyle.nanameue.app.posts.PostForm
+import com.pdoyle.nanameue.app.posts.CreatePostForm
 import com.pdoyle.nanameue.app.posts.PostsRepository
 import com.pdoyle.nanameue.app.proxy.ConnectivityManagerProxy
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ class PostsUseCase @Inject constructor(
         return postsRepository.getPosts()
     }
 
-    suspend fun createPost(postSubmit: PostForm) {
+    suspend fun createPost(postSubmit: CreatePostForm) {
         postsRepository.createPost(postSubmit)
     }
 

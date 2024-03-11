@@ -28,11 +28,11 @@ class LoginCoordinator(
 
     private fun listenForLoginSubmission() {
         view.listenForLoginSubmission()
-            .onEach {
+            .listenWithScope(scope) {
                 val submissionIsValid = loginUseCase.validate(it)
                 if (submissionIsValid is AuthResult.Error) {
                     view.showLoginError(submissionIsValid.error)
-                    return@onEach
+                    return@listenWithScope
                 }
 
                 val authResult = withContext(dispatchers.io()) {
@@ -47,16 +47,15 @@ class LoginCoordinator(
                     is AuthResult.Error -> view.showLoginError(authResult.error)
                 }
             }
-            .launchIn(scope)
     }
 
     private fun listenForSignupSubmission() {
         view.listenForSignUpSubmission()
-            .onEach {
+            .listenWithScope(scope) {
                 val submissionIsValid = loginUseCase.validate(it)
                 if (submissionIsValid is AuthResult.Error) {
                     view.showLoginError(submissionIsValid.error)
-                    return@onEach
+                    return@listenWithScope
                 }
 
                 val authResult = withContext(dispatchers.io()) {
@@ -71,6 +70,5 @@ class LoginCoordinator(
                     is AuthResult.Error -> view.showLoginError(authResult.error)
                 }
             }
-            .launchIn(scope)
     }
 }

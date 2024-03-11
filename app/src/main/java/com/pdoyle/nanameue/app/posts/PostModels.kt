@@ -21,7 +21,7 @@ data class PostSubmit(
     val imageUrl: String?
 )
 
-data class PostForm(
+data class CreatePostForm(
     val text: String?,
     val imageUrl: String?
 )
