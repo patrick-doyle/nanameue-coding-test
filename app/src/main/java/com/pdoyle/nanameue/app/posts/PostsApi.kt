@@ -48,7 +48,7 @@ class PostsApi @Inject constructor(
 
     suspend fun makePost(post: PostSubmit) {
 
-        val uploadedFileUrl = if(post.imageUrl != null) {
+        val uploadedFileUrl = if(!post.imageUrl.isNullOrBlank()) {
             val uri = Uri.parse(post.imageUrl)!!
 
             val cursor = contentResolver.query(uri, null, null, null, null) ?: return

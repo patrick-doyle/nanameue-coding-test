@@ -11,6 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
@@ -50,14 +55,25 @@ class PostsActivity : ComponentActivity() {
             .postsComponent(PostsModule(this))
             .inject(this)
 
-        val postCreateViewModel = ViewModelProvider(this, postsCreateViewModelFactory)[PostCreateViewModel::class.java]
-        val postsTimelineViewModel = ViewModelProvider(this, postsTimelineViewModelFactory)[PostsTimelineViewModel::class.java]
-        val postScreenViewModel = ViewModelProvider(this, postScreenViewModelFactory)[PostScreenViewModel::class.java]
+        val postCreateViewModel =
+            ViewModelProvider(this, postsCreateViewModelFactory)[PostCreateViewModel::class.java]
+        val postsTimelineViewModel = ViewModelProvider(
+            this,
+            postsTimelineViewModelFactory
+        )[PostsTimelineViewModel::class.java]
+        val postScreenViewModel =
+            ViewModelProvider(this, postScreenViewModelFactory)[PostScreenViewModel::class.java]
 
         setContent {
+
+            var currentRoute: String by rememberSaveable { mutableStateOf(PostScreenNav.POSTS_ROUTE) }
+
             NanameueTheme {
                 val navController = rememberNavController()
                 postScreenNav.setNavController(navController)
+                navController.addOnDestinationChangedListener { _, dest, _ ->
+                    currentRoute = dest.route.toString()
+                }
 
                 Scaffold(
                     topBar = {
@@ -66,12 +82,14 @@ class PostsActivity : ComponentActivity() {
                                 Text(stringResource(R.string.posts))
                             },
                             actions = {
-                                TextButton(onClick = {
-                                    postsTimelineViewModel.refresh()
-                                }) {
-                                    Text(
-                                        text = stringResource(id = R.string.refresh)
-                                    )
+                                if (currentRoute != PostScreenNav.NEW_POSTS_ROUTE) {
+                                    TextButton(onClick = {
+                                        postsTimelineViewModel.refresh()
+                                    }) {
+                                        Text(
+                                            text = stringResource(id = R.string.refresh)
+                                        )
+                                    }
                                 }
                                 TextButton(onClick = {
                                     postScreenViewModel.onLogout()
@@ -87,7 +105,7 @@ class PostsActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "posts",
+                        startDestination = PostScreenNav.POSTS_ROUTE,
                         Modifier.padding(paddingValues)
                     ) {
                         composable(PostScreenNav.POSTS_ROUTE) {
