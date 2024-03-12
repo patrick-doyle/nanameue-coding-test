@@ -15,7 +15,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var view: LoginView
 
     @Inject
-    lateinit var presenter: LoginCoordinator
+    lateinit var coordinator: LoginCoordinator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContent {
             view.Compose()
         }
-        presenter.onCreate()
+        coordinator.onCreate()
     }
 
     companion object {
