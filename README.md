@@ -84,3 +84,4 @@ The App uses two different architecture patterns as a demonstration.
 - ParameterizedTests to cover a range of checks with one test
 - Compose view tests in MVVM and VCUC architectures
 
+The tests are run from inside Android Studio.
